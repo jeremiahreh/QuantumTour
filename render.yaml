@@ -1,7 +1,6 @@
 services:
-  - type: web
+  - type: static
     name: cinetours
-    env: static
     buildCommand: npm install && npm run build
     staticPublishPath: build
     headers:
@@ -14,4 +13,7 @@ services:
       - path: /*
         name: X-XSS-Protection
         value: 1; mode=block
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
 

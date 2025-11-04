@@ -58,27 +58,32 @@ This creates an optimized production build in the `build` folder.
 
 ## Deployment on Render
 
-This application is configured for deployment on Render:
-
-1. **Build Command**: `npm install && npm run build`
-2. **Start Command**: `npx serve -s build -l 3000`
-3. **Environment**: Node
+This application is configured for deployment on Render as a Static Site.
 
 ### Render Deployment Steps
 
 1. Push your code to GitHub
-2. Connect your GitHub repository to Render
-3. Create a new "Static Site" service on Render
-4. Set the build command to: `npm install && npm run build`
-5. Set the publish directory to: `build`
-6. Deploy!
+2. Go to [Render Dashboard](https://dashboard.render.com) and sign in
+3. Click "New +" → "Static Site"
+4. Connect your GitHub account if needed
+5. Select your repository: `cinetours` (or your repo name)
+6. Configure the deployment:
+   - **Name**: `cinetours` (or your preferred name)
+   - **Branch**: `main`
+   - **Build Command**: `npm install && npm run build`
+   - **Publish Directory**: `build`
+7. Click "Create Static Site"
 
-**Note**: For Render static site deployment, you may need to install `serve` as a dev dependency:
-```bash
-npm install --save-dev serve
-```
+Render will automatically:
+- Build your React app
+- Deploy it to a URL (e.g., `https://cinetours.onrender.com`)
+- Automatically redeploy when you push to the `main` branch
 
-Or update the start command in Render to use a static file server.
+### Important Notes
+
+- The app uses React Router with client-side routing. The `_redirects` file in `public/` ensures all routes work correctly.
+- If you need environment variables, add them in Render's dashboard under "Environment" section.
+- The `render.yaml` file is included for optional Blueprint deployments, but manual setup is recommended for first-time deployment.
 
 ## Environment Variables
 
