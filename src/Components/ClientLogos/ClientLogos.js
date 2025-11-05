@@ -132,8 +132,7 @@ const ClientLogos = () => {
         scrollTrigger: {
           trigger: wrapper,
           start: 'top 80%',
-          end: 'top 40%',
-          toggleActions: 'play reverse play reverse',
+          toggleActions: 'play none none none',
         },
       });
     }
@@ -151,8 +150,7 @@ const ClientLogos = () => {
         scrollTrigger: {
           trigger: wrapper,
           start: 'top 80%',
-          end: 'top 40%',
-          toggleActions: 'play reverse play reverse',
+          toggleActions: 'play none none none',
         },
       });
     }
@@ -171,7 +169,7 @@ const ClientLogos = () => {
           trigger: wrapper,
           start: 'top 85%',
           end: 'top 50%',
-          toggleActions: 'play reverse play reverse',
+          toggleActions: 'play none none none',
         },
       });
     }
