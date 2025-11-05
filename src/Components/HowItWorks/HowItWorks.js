@@ -44,26 +44,26 @@ import React, { useEffect, useRef } from 'react';
    const currentIndex = useRef(0);
    const sectionRef = useRef(null);
 
-   const steps = [
-     {
-       icon: <UploadIcon />,
-       title: 'Upload your listing photos',
-       description: 'Select and upload the photos for your property.',
-       background: HIW1
-     },
-     {
-       icon: <VideoIcon />,
-       title: <>AI editing creates <br /> your videos</>,
-       description: 'Our AI tools stitch together cinematic walkthroughs.',
-       background: HIW2
-     },
-     {
-       icon: <DownloadIcon />,
-       title: 'Download & post in 24–48 hours',
-       description: 'Receive your video and share it anywhere.',
-       background: HIW3
-     }
-   ];
+  const steps = [
+    {
+      icon: <UploadIcon />,
+      title: 'Upload Your Photos',
+      description: 'Send us your property photos (from your phone or photographer).',
+      background: HIW1
+    },
+    {
+      icon: <VideoIcon />,
+      title: 'We Create Your Video',
+      description: 'Our team turns them into a cinematic walkthrough — delivered in 24 hours.',
+      background: HIW2
+    },
+    {
+      icon: <DownloadIcon />,
+      title: 'Share Everywhere',
+      description: 'Post your video on MLS, Instagram, or your website instantly.',
+      background: HIW3
+    }
+  ];
 
    const gotoSection = (index, direction) => {
      if (animating.current) return;
@@ -175,10 +175,10 @@ import React, { useEffect, useRef } from 'react';
      <section className={styles.section} ref={sectionRef}>
        <div className={styles.skyblueBackground}></div>
        
-       <div className={styles.header}>
-         <h2 ref={titleRef} className={styles.sectionTitle}>How It Works</h2>
-         <p className={styles.sectionSubtitle}>Watch the process unfold</p>
-       </div>
+      <div className={styles.header}>
+        <h2 ref={titleRef} className={styles.sectionTitle}>Your Next Listing Video in 3 Easy Steps</h2>
+        <p className={styles.sectionSubtitle}>Simple, fast, professional</p>
+      </div>
        
        <div className={styles.container} ref={containerRef}>
          {steps.map((step, index) => (

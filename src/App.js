@@ -40,17 +40,13 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const HomePage = () => (
   <>
     <Hero
-      title={
-        <>
-          Turn Listing Photos Into Cinematic Walkthrough Videos— for fraction of
-          the Price
-        </>
-      }
+      title="Turn Your Listing Photos Into Cinematic Videos — Delivered in 24 Hours."
+      subtitle="Engage more buyers and close faster with professional listing videos designed for today's market. No filming. No editing. Just results."
     />
     <ClientLogos />
     <VideoComparison
-      title="From Photo to Cinematic Video"
-      description="See how we transform static property photos into engaging videos"
+      title="See the Difference 24 Hours Can Make"
+      description="Sample videos showcasing our cinematic transformations"
       comparisons={[
         {
           photo: require("./assets/images/before1.png"),

@@ -11,27 +11,27 @@ const CostComparison = () => {
 
   const comparisonData = [
     {
-      category: "Time",
-      icon: <FiClock className={styles.icon}/>,
+      category: "Buyer Engagement",
+      icon: <FiCheckCircle className={styles.icon}/>,
       items: [
-        { feature: "Turnaround", ai: "24-48 hours", traditional: "2-3 weeks", advantage: "83% faster" },
-        { feature: "Scheduling", ai: "Instant upload", traditional: "1-2 week wait", advantage: "No delays" }
+        { feature: "Inquiries", ai: "4x more", traditional: "Standard", advantage: "Listings with video get 4x more inquiries" },
+        { feature: "Virtual Tours", ai: "Essential", traditional: "Optional", advantage: "67% of buyers want virtual tours before visiting" }
       ]
     },
     {
-      category: "Cost",
+      category: "Agent Advantage",
       icon: <FiDollarSign className={styles.icon}/>,
       items: [
-        { feature: "Production", ai: "$49-$149", traditional: "$1,500-$5,000", advantage: "90% cheaper" },
-        { feature: "Recurring", ai: "None", traditional: "$200+/month", advantage: "No equipment costs" }
+        { feature: "Win Listings", ai: "81% more likely", traditional: "Standard rate", advantage: "81% of sellers prefer agents who use video" },
+        { feature: "Turnaround", ai: "24 hours", traditional: "2-3 weeks", advantage: "Faster time to market" }
       ]
     },
     {
-      category: "Quality",
+      category: "Cost & Value",
       icon: <FiFilm className={styles.icon}/>,
       items: [
-        { feature: "Resolution", ai: "4K HDR", traditional: "4K", advantage: "Equal quality" },
-        { feature: "Revisions", ai: "Unlimited", traditional: "$150/revision", advantage: "More flexibility" }
+        { feature: "Production Cost", ai: "$49-$149", traditional: "$1,500-$5,000", advantage: "90% cheaper" },
+        { feature: "Quality", ai: "Professional", traditional: "Professional", advantage: "Same quality, better price" }
       ]
     }
   ];
@@ -62,9 +62,9 @@ const CostComparison = () => {
 
       <div className={styles.container}>
         <div className={styles.titleContainer} ref={titleRef}>
-          <h2 className={styles.mainTitle}>Comparison with Traditional Video Shooting</h2>
+          <h2 className={styles.mainTitle}>Video Tours = More Buyers. Period.</h2>
           <p className={styles.subtitle}>
-            See how AI video generation saves time and money while delivering professional results
+            QuantumTour helps you compete at the level of top agents — without the cost or delay.
           </p>
         </div>
 

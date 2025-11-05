@@ -146,9 +146,9 @@ const Testimonials = () => {
     <section id="testimonials" className={styles.testimonialsSection}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <span className={styles.tagline}>Recommendation by Clients</span>
+          <span className={styles.tagline}>Client Success Stories</span>
           <h2 ref={titleRef} className={styles.sectionTitle}>
-            Real Clients, Real Stories
+            What Agents Are Saying
           </h2>
           <div className={styles.titleUnderline}></div>
         </div>

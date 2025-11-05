@@ -133,10 +133,11 @@ const Pricing = () => {
       <Container>
         <Row className="justify-content-center mb-5">
           <Col xs={12} className="text-center">
-            <h2 className={styles.sectionTitle}>Start here and scale up</h2>
+            <h2 className={styles.sectionTitle}>Simple Pricing — No Hidden Fees</h2>
             <div className={styles.titleUnderline}></div>
             <p className={styles.sectionSubtitle}>
-              Choose the plan that works best for your business needs
+              All packages include music, branding, and delivery within 24 hours.<br />
+              Every 1 photo = 5 seconds of video.
             </p>
           </Col>
         </Row>
@@ -170,7 +171,7 @@ const Pricing = () => {
                 </div>
                 
                 <button className={styles.ctaButton}>
-                  Get started
+                  Get Started
                 </button>
               </div>
             </Col>

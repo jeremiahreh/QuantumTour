@@ -90,7 +90,7 @@ const Hero = ({ title, subtitle }) => {
               whileTap="tap"
               className={`${styles.primaryButton} hero-button`}
             >
-              <Link to="/portal">Get Started</Link>
+              <Link to="/portal">Get My Video in 24 Hours →</Link>
             </motion.button>
 
           
