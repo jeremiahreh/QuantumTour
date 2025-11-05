@@ -10,6 +10,8 @@ import VideoComparison from "./Components/VideoComparison/VideoComparison.js";
 import Pricing from "./Components/Pricing/Pricing.js";
 import CostComparison from "./Components/CostComparison/CostComparison.js";
 import Testimonials from "./Components/Testimonials/Testimonials.js";
+import About from "./Components/About/About.js";
+import FinalCTA from "./Components/FinalCTA/FinalCTA.js";
 import Footer from "./Components/Footer/Footer.js";
 import ClientPortal from "./pages/ClientPortal/ClientPortal.js";
 import AdminPortal from "./pages/AdminPortal/AdminPortal";
@@ -65,6 +67,8 @@ const HomePage = () => (
     <Pricing />
     <CostComparison />
     <Testimonials />
+    <About />
+    <FinalCTA />
   </>
 );
 
