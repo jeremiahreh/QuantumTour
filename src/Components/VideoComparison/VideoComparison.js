@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { gsap } from 'gsap';
 
 import {  ScrollTrigger } from '../../utils/gsapConfig';
@@ -56,15 +56,15 @@ const VideoComparison = ({
     }
   }, []);
 
-  // Auto-advance
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isPlaying && comparisons?.length) {
-        goToNext();
-      }
-    }, slideInterval);
-    return () => clearInterval(interval);
-  }, [isPlaying, comparisons?.length, slideInterval, activeIndex]);
+  const resetAutoPlay = () => {
+    setIsPlaying(false);
+    setTimeout(() => setIsPlaying(true), slideInterval * 2);
+  };
+
+  const goToNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % comparisons.length);
+    resetAutoPlay();
+  }, [comparisons.length, slideInterval]);
 
   const goToPrev = () => {
     setActiveIndex((prev) =>
@@ -73,10 +73,15 @@ const VideoComparison = ({
     resetAutoPlay();
   };
 
-  const goToNext = () => {
-    setActiveIndex((prev) => (prev + 1) % comparisons.length);
-    resetAutoPlay();
-  };
+  // Auto-advance
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isPlaying && comparisons?.length) {
+        goToNext();
+      }
+    }, slideInterval);
+    return () => clearInterval(interval);
+  }, [isPlaying, comparisons?.length, slideInterval, goToNext]);
 
   const resetAutoPlay = () => {
     setIsPlaying(false);

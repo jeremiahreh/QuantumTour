@@ -4,12 +4,9 @@ import styles from './OrderList.module.css';
 import { useOrders } from '../../../hooks/useOrders.js';
 import { gsap } from 'gsap';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || 'https://qunatum-tour.onrender.com';
-
 const OrderList = () => {
   const { orders, loading, error, fetchOrders, updateOrderStatus, uploadFinalVideo } = useOrders();
   const [uploading, setUploading] = useState({});
-  const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [modalVideo, setModalVideo] = useState(null);
   const cardsRef = useRef([]);
 
@@ -86,12 +83,6 @@ const OrderList = () => {
     fetchOrders();
   };
 
-  const toggleDescription = (orderId) => {
-    setExpandedDescriptions((prev) => ({
-      ...prev,
-      [orderId]: !prev[orderId],
-    }));
-  };
 
   const openModal = (videoUrl, orderId) => {
     setModalVideo({ videoUrl, orderId });

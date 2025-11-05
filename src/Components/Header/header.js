@@ -42,11 +42,8 @@ const Header = () => {
   };
 
   const handleSignIn = () => go("/signin");
-  const handleSignUp = () => go("/signup");
 
   const handleGetStart = () => go("/signup");;
-
-  const handleAvatarClick = () => go("/portal");
 
   const handleSignOut = async () => {
     try {
@@ -64,8 +61,6 @@ const Header = () => {
     }
   };
 
-  const initial =
-    (user?.name?.[0] || user?.email?.[0] || "U").toUpperCase();
 
   return (
     <header className="site-header container-fluid bg-black shadow-sm">

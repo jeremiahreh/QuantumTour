@@ -22,8 +22,9 @@ const TestimonialCard = ({ testimonial, index }) => {
     }
 
     return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
+      const currentCard = cardRef.current;
+      if (currentCard) {
+        observer.unobserve(currentCard);
       }
     };
   }, []);

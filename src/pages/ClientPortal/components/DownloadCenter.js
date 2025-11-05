@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef, useLayoutEffect, useCallback } from "react";
 import styles from "./DownloadCenter.module.css";
 import { gsap } from "gsap";
 
@@ -89,7 +89,7 @@ const DownloadCenter = ({ userId, onDownload }) => {
   }
 
   // Fetch client orders with videos
-  const fetchClientOrders = async () => {
+  const fetchClientOrders = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -157,7 +157,7 @@ const DownloadCenter = ({ userId, onDownload }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Handle download with proper error handling
   const handleDownload = async (videoId, videoName) => {
@@ -198,7 +198,7 @@ const DownloadCenter = ({ userId, onDownload }) => {
     if (userId) {
       fetchClientOrders();
     }
-  }, [userId]);
+  }, [userId, fetchClientOrders]);
 
   const bubbles = useMemo(() => {
     const N = 18;

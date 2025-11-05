@@ -17,7 +17,7 @@ import UploadScreen from "./components/UploadScreen";
 import OrderHub from "./components/OrderHub";
 import AddonScreen from "./components/AddOns";
 
-import { getPortalState, setPortalState } from "./state";
+import { setPortalState } from "./state";
 
 // --- Preselection helpers (persisted by AddOns before Stripe redirect)
 function readPreselection() {

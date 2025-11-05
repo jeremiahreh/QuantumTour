@@ -10,7 +10,6 @@ const Testimonials = () => {
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const sliderRef = useRef(null);
 
   // Title animation - comes from right side
   useEffect(() => {

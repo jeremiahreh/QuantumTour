@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Card, Badge, Spinner } from 'react-bootstrap';
+import { Card, Badge } from 'react-bootstrap';
 import styles from './JobTracker.module.css';
 import { gsap } from 'gsap';
 

@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
 
 const value = useMemo(
   () => ({ user, signedIn: !!user, signUp, signIn, signInAsGuest, signOut, requestPasswordReset, authLoading }),
-  [user, authLoading]
+  [user, authLoading, signUp, signIn, signInAsGuest, signOut, requestPasswordReset]
 );
 
 

@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useMemo } from 'react';
 import { gsap, ScrollTrigger } from '../../utils/gsapConfig';
 import styles from './ClientLogos.module.css';
 // NOTE: replace these import paths with your actual assets
@@ -19,7 +18,7 @@ import buildingSrc from '../../assets/images/building.png';
 // GSAP plugins are now registered in App.js, so we don't need to register here again
 
 const ClientLogos = () => {
-  const logos = [
+  const logos = useMemo(() => [
     { src: bhhs , alt: 'BHHS', accentColor: '#004B93' },
     { src: century, alt: 'Century', accentColor: '#FF6B6B' },
     { src: coldwell, alt: 'Coldwell', accentColor: '#00A86B' },
@@ -30,7 +29,7 @@ const ClientLogos = () => {
     { src: towne, alt: 'Towne', accentColor: '#0EA5A4' },
     { src: whissel, alt: 'Whissel', accentColor: '#F59E0B' },
     { src: willis, alt: 'Willis', accentColor: '#3B82F6' },
-  ];
+  ], []);
 
   // Duplicate logos for seamless marquee
   const dup = [...logos, ...logos, ...logos]; // tripled
