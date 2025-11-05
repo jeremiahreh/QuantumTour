@@ -17,12 +17,12 @@ const TestimonialCard = ({ testimonial, index }) => {
       { threshold: 0.1 }
     );
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
+    const currentCard = cardRef.current;
+    if (currentCard) {
+      observer.observe(currentCard);
     }
 
     return () => {
-      const currentCard = cardRef.current;
       if (currentCard) {
         observer.unobserve(currentCard);
       }

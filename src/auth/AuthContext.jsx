@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useMemo, useState, useEffect } from "react";
+import React, { createContext, useContext, useMemo, useState, useEffect, useCallback } from "react";
 import { apiSignup, apiSignin, apiForgotPassword, apiGuest } from "../services/authApi";
 
 const KEY_TOKEN = "access_token";
@@ -62,28 +62,28 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const signUp = async ({ name, email, password }) => {
+  const signUp = useCallback(async ({ name, email, password }) => {
     const data = await apiSignup(name, email, password);
     setSessionFromApi(data, name);
-  };
+  }, [setSessionFromApi]);
 
-  const signIn = async ({ email, password }) => {
+  const signIn = useCallback(async ({ email, password }) => {
     const data = await apiSignin(email, password);
     setSessionFromApi(data);
-  };
+  }, [setSessionFromApi]);
 
-  const signInAsGuest = async () => {
+  const signInAsGuest = useCallback(async () => {
     const data = await apiGuest();
     setSessionFromApi(data, "Guest");
-  };
+  }, [setSessionFromApi]);
 
-  const signOut = () => {
+  const signOut = useCallback(() => {
     localStorage.removeItem(KEY_TOKEN);
     localStorage.removeItem(KEY_USER);
     setUser(null);
-  };
+  }, []);
 
-  const requestPasswordReset = async (email) => apiForgotPassword(email);
+  const requestPasswordReset = useCallback(async (email) => apiForgotPassword(email), []);
 
 const value = useMemo(
   () => ({ user, signedIn: !!user, signUp, signIn, signInAsGuest, signOut, requestPasswordReset, authLoading }),

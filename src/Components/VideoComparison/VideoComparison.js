@@ -56,15 +56,15 @@ const VideoComparison = ({
     }
   }, []);
 
-  const resetAutoPlay = () => {
+  const resetAutoPlay = useCallback(() => {
     setIsPlaying(false);
     setTimeout(() => setIsPlaying(true), slideInterval * 2);
-  };
+  }, [slideInterval]);
 
   const goToNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % comparisons.length);
     resetAutoPlay();
-  }, [comparisons.length, slideInterval]);
+  }, [comparisons.length, resetAutoPlay]);
 
   const goToPrev = () => {
     setActiveIndex((prev) =>
