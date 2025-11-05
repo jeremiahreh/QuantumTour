@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styles from './CostComparison.module.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiDollarSign, FiFilm, FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
 
 gsap.registerPlugin(ScrollTrigger);
 
