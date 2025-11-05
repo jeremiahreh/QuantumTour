@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Header from "./Components/Header/header.js";
 import Hero from "./Components/Herosection/Hero.js";
 import ClientLogos from "./Components/ClientLogos/ClientLogos.js";
+import Benefits from "./Components/Benefits/Benefits.js";
 import HowItWorks from "./Components/HowItWorks/HowItWorks.js";
 import VideoComparison from "./Components/VideoComparison/VideoComparison.js";
 import Pricing from "./Components/Pricing/Pricing.js";
@@ -44,6 +45,7 @@ const HomePage = () => (
       subtitle="Engage more buyers and close faster with professional listing videos designed for today's market. No filming. No editing. Just results."
     />
     <ClientLogos />
+    <Benefits />
     <VideoComparison
       title="See the Difference 24 Hours Can Make"
       description="Sample videos showcasing our cinematic transformations"
