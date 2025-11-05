@@ -217,10 +217,13 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   }
   
   .sectionTitle {
-    font-size: 2.5rem;
-    line-height: 1.3;
-    letter-spacing: 1px;
+    font-size: 1.9rem;
+    line-height: 1.25;
+    letter-spacing: 0.5px;
     padding: 0 1.5rem;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .container {
@@ -254,11 +257,11 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 
 @media (max-width: 576px) {
   .sectionTitle {
-    font-size: 2rem;
+    font-size: 1.6rem;
     line-height: 1.3;
-    letter-spacing: 0.5px;
+    letter-spacing: 0px;
     padding: 0 1rem;
-    word-spacing: 0.1em;
+    max-width: 95%;
   }
   
   .sectionSubtitle {
@@ -302,9 +305,10 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 
 @media (max-width: 400px) {
   .sectionTitle {
-    font-size: 1.6rem;
-    line-height: 1.3;
+    font-size: 1.35rem;
+    line-height: 1.35;
     padding: 0 0.75rem;
+    letter-spacing: -0.5px;
   }
   
   .blurCard {
@@ -318,7 +322,8 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 
 @media (max-width: 360px) {
   .sectionTitle {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     line-height: 1.4;
+    letter-spacing: -0.5px;
   }
 }
