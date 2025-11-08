@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const BASE_URL = 'https://qunatum-tour.onrender.com';
+const BASE_URL = 'https://quantum-tour-backend.onrender.com';
 
 export function useOrders() {
   const [orders, setOrders] = useState([]);
@@ -26,51 +26,66 @@ export function useOrders() {
       const data = await res.json();
       console.log('Received data:', data);
 
-      // Handle different response formats
-      let ordersArray = [];
+      // In your fetchOrders function, replace the ordersArray extraction with:
+let ordersArray = [];
 
-      if (Array.isArray(data)) {
-        ordersArray = data;
-      } else if (data && typeof data === 'object') {
-        if (Array.isArray(data.orders)) {
-          ordersArray = data.orders;
-        } else if (Array.isArray(data.data)) {
-          ordersArray = data.data;
-        } else if (Array.isArray(data.items)) {
-          ordersArray = data.items;
-        } else if (Array.isArray(data.results)) {
-          ordersArray = data.results;
-        } else if (data.order_id) {
-          ordersArray = [data];
-        } else {
-          const values = Object.values(data);
-          const arrayValues = values.filter(val => Array.isArray(val));
-          if (arrayValues.length > 0) {
-            ordersArray = arrayValues[0];
-          } else {
-            throw new Error(`Invalid data format. Expected array but got object with keys: ${Object.keys(data).join(', ')}`);
-          }
-        }
+if (Array.isArray(data)) {
+  ordersArray = data;
+} else if (data && typeof data === 'object') {
+  // Debug the data structure
+  console.log('Data keys:', Object.keys(data));
+  console.log('Full data structure:', data);
+  
+  if (Array.isArray(data.orders)) {
+    ordersArray = data.orders;
+    console.log('Using data.orders array');
+  } else if (Array.isArray(data.data)) {
+    ordersArray = data.data;
+    console.log('Using data.data array');
+  } else {
+    // If no array found, try to find the first array in the object
+    const arrayKeys = Object.keys(data).filter(key => Array.isArray(data[key]));
+    if (arrayKeys.length > 0) {
+      ordersArray = data[arrayKeys[0]];
+      console.log(`Using data.${arrayKeys[0]} array`);
+    } else {
+      // If it's a single order object, wrap it in an array
+      if (data.order_id || data.id) {
+        ordersArray = [data];
+        console.log('Wrapping single order in array');
       } else {
-        throw new Error(`Unexpected data type: ${typeof data}`);
+        throw new Error(`Invalid data format. Expected array but got object with keys: ${Object.keys(data).join(', ')}`);
       }
+    }
+  }
+} else {
+  throw new Error(`Unexpected data type: ${typeof data}`);
+}
 
-      console.log('Final orders array to process:', ordersArray);
+console.log('Final orders array to process:', ordersArray);
+console.log('First order in ordersArray:', ordersArray[0]);
 
       // Transform the backend data to match frontend expectations
-      const transformedOrders = ordersArray.map((order, index) => ({
-        id: order.client || order.order_id || order.id || `order-${index}`,
-        client: order.client, // ✅ Keep the client (user_id)
-        order_id: order.order_id, // ✅ Keep the real backend order ID
-        status: order.status || 'unknown',
-        package: order.package || 'Unknown',
-        photos: order.photos || 0,
-        date: order.date || new Date().toISOString(),
-        videoUrl: order.videos && order.videos.length > 0 ? order.videos[0].url : null,
-        finalVideoUrl: null,
-        videos: order.videos || [],
-        user_id: order.user_id || null
-      }));
+const transformedOrders = ordersArray.map((order, index) => {
+  console.log('Raw order object:', order);
+  
+  return {
+    id: order.order_id || order.id || `order-${index}`,
+    client_id: order.client_id, // ✅ Use the actual field name from backend
+    client: order.client_id,    // ✅ Map client_id to client for compatibility
+    order_id: order.order_id,
+    status: order.status || 'unknown',
+    package: order.package || 'Unknown',
+    photos: order.photos || 0,
+    date: order.date || new Date().toISOString(),
+    videoUrl: order.videos && order.videos.length > 0 ? order.videos[0].url : null,
+    finalVideoUrl: null,
+    videos: order.videos || [],
+    user_id: order.user_id || null,
+    client_email: order.client_email, // Also include other client info if needed
+    client_name: order.client_name
+  };
+});
 
       console.log('Transformed orders:', transformedOrders);
       setOrders(transformedOrders);

@@ -1,5 +1,5 @@
 // src/services/portalApi.js
-const BASE_URL = "https://qunatum-tour.onrender.com";
+const BASE_URL = "https://quantum-tour-backend.onrender.com";
 const CLIENT_PREFIX = "/api/client";   // Assuming this is the prefix used for your FastAPI router
 const STRIPE_PREFIX = "/stripe";
 

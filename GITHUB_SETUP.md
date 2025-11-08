@@ -12,7 +12,7 @@
    - ⚠️ **DO NOT** choose a license
 3. Click **"Create repository"**
 
-## Step 2: Push Your Code to GitHub
+## Step 2: Push Your Code to GitHub.
 
 ### Option A: Use the Script (Easiest)
 

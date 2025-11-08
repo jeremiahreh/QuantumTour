@@ -4,12 +4,15 @@ import styles from './ClientManagement.module.css';
 
 /**
  * Displays client list with usage stats
- * API: GET /admin/clientsa
+ * API: GET /api/admin/clients
  */
 const ClientList = () => {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Base API URL
+  const API_BASE_URL = 'https://quantum-tour-backend.onrender.com';
 
   useEffect(() => {
     fetchClients();
@@ -20,14 +23,25 @@ const ClientList = () => {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/admin/clients');
+      const response = await fetch(`${API_BASE_URL}/api/admin/clients`);
       
       if (!response.ok) {
-        throw new Error(`Failed to fetch clients: ${response.status}`);
+        throw new Error(`Failed to fetch clients: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
-      setClients(data);
+      console.log('API Response:', data);
+      
+      // Extract clients array from the response
+      if (data.clients && Array.isArray(data.clients)) {
+        setClients(data.clients);
+      } else if (Array.isArray(data)) {
+        setClients(data);
+      } else {
+        setClients([]);
+        console.warn('Unexpected API response format:', data);
+      }
+      
     } catch (err) {
       setError(err.message);
       console.error('Error fetching clients:', err);
@@ -41,8 +55,8 @@ const ClientList = () => {
     <div className={styles.mobileCard}>
       <div className={styles.mobileCardContent}>
         <div className={styles.mobileCardRow}>
-          <span className={styles.mobileLabel}>Client:</span>
-          <span className={styles.mobileValue}>{client.name}</span>
+          <span className={styles.mobileLabel}>Client ID:</span>
+          <span className={styles.mobileValue}>{client.user_id || client.id}</span>
         </div>
         <div className={styles.mobileCardRow}>
           <span className={styles.mobileLabel}>Email:</span>
@@ -55,12 +69,6 @@ const ClientList = () => {
         <div className={styles.mobileCardRow}>
           <span className={styles.mobileLabel}>Orders:</span>
           <span className={styles.mobileValue}>{client.orders}</span>
-        </div>
-        <div className={styles.mobileCardRow}>
-          <span className={styles.mobileLabel}>Actions:</span>
-          <Button size="sm" className={styles.viewButton}>
-            View
-          </Button>
         </div>
       </div>
     </div>
@@ -101,25 +109,19 @@ const ClientList = () => {
               <Table hover responsive className={styles.clientTable}>
                 <thead className={styles.tableHead}>
                   <tr className={styles.tableRowHead}>
-                    <th className={styles.tableHeading}>Client</th>
+                    <th className={styles.tableHeading}>Client ID</th>
                     <th className={styles.tableHeading}>Email</th>
                     <th className={styles.tableHeading}>Joined</th>
                     <th className={styles.tableHeading}>Orders</th>
-                    <th className={styles.tableHeading}>Actions</th>
                   </tr>
                 </thead>
                 <tbody className={styles.tableBody}>
                   {clients.map((client) => (
-                    <tr key={client.id} className={styles.tableRow}>
-                      <td data-label="Client" className={styles.tableCell}>{client.name}</td>
+                    <tr key={client.user_id || client.id} className={styles.tableRow}>
+                      <td data-label="Client ID" className={styles.tableCell}>{client.user_id || client.id}</td>
                       <td data-label="Email" className={styles.tableCell}>{client.email}</td>
                       <td data-label="Joined" className={styles.tableCell}>{client.joined}</td>
                       <td data-label="Orders" className={styles.tableCell}>{client.orders}</td>
-                      <td data-label="Actions" className={styles.tableCell}>
-                        <Button size="sm" className={styles.viewButton}>
-                          View
-                        </Button>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -128,7 +130,7 @@ const ClientList = () => {
 
             <div className={styles.mobileView}>
               {clients.map((client) => (
-                <MobileClientCard key={client.id} client={client} />
+                <MobileClientCard key={client.user_id || client.id} client={client} />
               ))}
             </div>
 

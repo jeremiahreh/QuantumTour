@@ -9,7 +9,7 @@ import OrderStatus from "./components/OrderStatus";
 import DownloadCenter from "./components/DownloadCenter";
 import BrandAssets from "./components/BrandAssets";
 import Reorder from "./components/Reorder";
-import Invoices from "./components/Invoices";
+// import Invoices from "./components/Invoices";
 import styles from "./styles/Portal.module.css";
 
 import ClientPortalGate from "./components/ClientPortalGate";
@@ -181,25 +181,25 @@ export default function ClientPortal() {
   }, [stage, activeTab, userId]);
 
   /* ------------------- INVOICES ------------------- */
-  const [invoiceList, setInvoiceList] = useState([]);
-  useEffect(() => {
-    if (stage !== "portal" || activeTab !== "invoices") return;
-    if (!userId) return;
+  // const [invoiceList, setInvoiceList] = useState([]);
+  // useEffect(() => {
+  //   if (stage !== "portal" || activeTab !== "invoices") return;
+  //   if (!userId) return;
 
-    (async () => {
-      try {
-        const data = await portalApi.getUserInvoices(userId);
-        const mapped = (data?.invoices || []).map((inv) => ({
-          ...inv,
-          status: inv.status === "paid" ? "paid" : "pending",
-        }));
-        setInvoiceList(mapped);
-      } catch (e) {
-        console.error("Invoices fetch failed:", e);
-        setInvoiceList([]);
-      }
-    })();
-  }, [stage, activeTab, userId]);
+  //   (async () => {
+  //     try {
+  //       const data = await portalApi.getUserInvoices(userId);
+  //       const mapped = (data?.invoices || []).map((inv) => ({
+  //         ...inv,
+  //         status: inv.status === "paid" ? "paid" : "pending",
+  //       }));
+  //       setInvoiceList(mapped);
+  //     } catch (e) {
+  //       console.error("Invoices fetch failed:", e);
+  //       setInvoiceList([]);
+  //     }
+  //   })();
+  // }, [stage, activeTab, userId]);
 
   /* ------------------- HELPERS ------------------- */
   const clearNewFlag = () => setSearchParams({});
@@ -333,14 +333,14 @@ export default function ClientPortal() {
       );
     }
 
-    if (activeTab === "invoices") {
-      return (
-        <div className={styles.screenWrap}>
-          <button onClick={goBack} className={styles.backBtn}>← Back</button>
-          <Invoices invoices={invoiceList} />
-        </div>
-      );
-    }
+    // if (activeTab === "invoices") {
+    //   return (
+    //     <div className={styles.screenWrap}>
+    //       <button onClick={goBack} className={styles.backBtn}>← Back</button>
+    //       <Invoices invoices={invoiceList} />
+    //     </div>
+    //   );
+    // }
   }
 
   return <Container fluid className={styles.portalContainer}>Loading…</Container>;

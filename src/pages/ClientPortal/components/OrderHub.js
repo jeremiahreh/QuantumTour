@@ -20,14 +20,14 @@ export default function OrderHub({ onGo, onStartOrder }) {
       on: () => onGo?.("status"),
       ctaLabel: "Open",
     },
-    {
-      key: "invoices",
-      title: "Invoices",
-      desc: "View and download receipts.",
-      icon: "bi-receipt",
-      on: () => onGo?.("invoices"),
-      ctaLabel: "Open",
-    },
+    // {
+    //   key: "invoices",
+    //   title: "Invoices",
+    //   desc: "View and download receipts.",
+    //   icon: "bi-receipt",
+    //   on: () => onGo?.("invoices"),
+    //   ctaLabel: "Open",
+    // },
     {
       key: "reorder",
       title: "Re-order",
