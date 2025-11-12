@@ -9,7 +9,7 @@ import OrderStatus from "./components/OrderStatus";
 import DownloadCenter from "./components/DownloadCenter";
 import BrandAssets from "./components/BrandAssets";
 import Reorder from "./components/Reorder";
-// import Invoices from "./components/Invoices";
+import Invoices from "./components/Invoices";
 import styles from "./styles/Portal.module.css";
 
 import ClientPortalGate from "./components/ClientPortalGate";
@@ -17,9 +17,8 @@ import UploadScreen from "./components/UploadScreen";
 import OrderHub from "./components/OrderHub";
 import AddonScreen from "./components/AddOns";
 
-import { setPortalState } from "./state";
+import { getPortalState, setPortalState } from "./state";
 
-// --- Preselection helpers (persisted by AddOns before Stripe redirect)
 function readPreselection() {
   const rawPkg = localStorage.getItem("qt_pkgId");
   const rawAdd = localStorage.getItem("qt_addons");
@@ -58,6 +57,13 @@ export default function ClientPortal() {
   /* ------------------- INITIAL STAGE DECISION ------------------- */
   useEffect(() => {
     if (authLoading || !userId || checkedOrders) return;
+
+    if (searchParams.get("start") === "upload") {
+      console.log("[Portal] start=upload detected — jumping straight to upload stage.");
+      setStage("upload");
+      setCheckedOrders(true);   // prevent the other effect from running again
+      return;
+    }
 
     (async () => {
       try {
@@ -101,7 +107,6 @@ export default function ClientPortal() {
             }))
           );
         } catch (e) {
-          console.error("Orders fetch failed:", e);
           setOrders([]);
         } finally {
           setIsLoading(false);
@@ -174,32 +179,33 @@ export default function ClientPortal() {
         );
         setDlVideos(mapped);
       } catch (e) {
-        console.error("Download center fetch failed:", e);
         setDlVideos([]);
       }
     })();
   }, [stage, activeTab, userId]);
 
   /* ------------------- INVOICES ------------------- */
-  // const [invoiceList, setInvoiceList] = useState([]);
-  // useEffect(() => {
-  //   if (stage !== "portal" || activeTab !== "invoices") return;
-  //   if (!userId) return;
+  const [invoiceList, setInvoiceList] = useState([]);
+  useEffect(() => {
+    if (stage !== "portal" || activeTab !== "invoices") return;
+    if (!userId) return;
 
-  //   (async () => {
-  //     try {
-  //       const data = await portalApi.getUserInvoices(userId);
-  //       const mapped = (data?.invoices || []).map((inv) => ({
-  //         ...inv,
-  //         status: inv.status === "paid" ? "paid" : "pending",
-  //       }));
-  //       setInvoiceList(mapped);
-  //     } catch (e) {
-  //       console.error("Invoices fetch failed:", e);
-  //       setInvoiceList([]);
-  //     }
-  //   })();
-  // }, [stage, activeTab, userId]);
+    (async () => {
+      try {
+        const data = await portalApi.getUserInvoices();
+        console.log("Invoie Data: ",data);
+        const mapped = (data?.invoices || []).map((inv) => ({
+          id: inv.invoice_id,
+          amount: inv.amount,
+          date: inv.created_at,
+          is_paid: inv.is_paid,
+        }));
+        setInvoiceList(mapped);
+      } catch (e) {
+        setInvoiceList([]);
+      }
+    })();
+  }, [stage, activeTab, userId]);
 
   /* ------------------- HELPERS ------------------- */
   const clearNewFlag = () => setSearchParams({});
@@ -333,14 +339,14 @@ export default function ClientPortal() {
       );
     }
 
-    // if (activeTab === "invoices") {
-    //   return (
-    //     <div className={styles.screenWrap}>
-    //       <button onClick={goBack} className={styles.backBtn}>← Back</button>
-    //       <Invoices invoices={invoiceList} />
-    //     </div>
-    //   );
-    // }
+    if (activeTab === "invoices") {
+      return (
+        <div className={styles.screenWrap}>
+          <button onClick={goBack} className={styles.backBtn}>← Back</button>
+          <Invoices invoices={invoiceList} />
+        </div>
+      );
+    }
   }
 
   return <Container fluid className={styles.portalContainer}>Loading…</Container>;
