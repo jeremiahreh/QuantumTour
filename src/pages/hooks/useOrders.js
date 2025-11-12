@@ -65,14 +65,14 @@ if (Array.isArray(data)) {
 console.log('Final orders array to process:', ordersArray);
 console.log('First order in ordersArray:', ordersArray[0]);
 
-      // Transform the backend data to match frontend expectations
+// Transform the backend data to match frontend expectations
 const transformedOrders = ordersArray.map((order, index) => {
   console.log('Raw order object:', order);
   
   return {
     id: order.order_id || order.id || `order-${index}`,
-    client_id: order.client_id, // ✅ Use the actual field name from backend
-    client: order.client_id,    // ✅ Map client_id to client for compatibility
+    client_id: order.user_id, // ✅ Map user_id to client_id
+    client: order.user_id,    // ✅ Map user_id to client for compatibility
     order_id: order.order_id,
     status: order.status || 'unknown',
     package: order.package || 'Unknown',
@@ -81,9 +81,10 @@ const transformedOrders = ordersArray.map((order, index) => {
     videoUrl: order.videos && order.videos.length > 0 ? order.videos[0].url : null,
     finalVideoUrl: null,
     videos: order.videos || [],
-    user_id: order.user_id || null,
-    client_email: order.client_email, // Also include other client info if needed
-    client_name: order.client_name
+    user_id: order.user_id,        // ✅ Keep original user_id
+    user_email: order.user_email,   // ✅ Add email
+    user_name: order.user_name,     // ✅ Add name
+    user_code: order.user_code      // ✅ Add user code
   };
 });
 
@@ -138,7 +139,7 @@ const transformedOrders = ordersArray.map((order, index) => {
     }
   };
 
-  //  Upload final video (fixed for query-based user_id)
+  // Upload final video (fixed - user_id now included in FormData)
   const uploadFinalVideo = async (orderId, file) => {
     try {
       console.log('Uploading file for order:', orderId);
@@ -154,17 +155,19 @@ const transformedOrders = ordersArray.map((order, index) => {
         throw new Error(`No client (user_id) found for order: ${orderId}`);
       }
 
-      //  Create form data (only file)
+      // Create form data with both file and user_id
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('user_id', order.client); // Add user_id to form data
 
-      //  Send user_id as query parameter
+      // Send user_id as both query parameter AND in form data for compatibility
       const uploadUrl = `${BASE_URL}/api/admin/final-video?user_id=${order.client}`;
       console.log('Sending request to:', uploadUrl);
 
       const res = await fetch(uploadUrl, {
         method: 'POST',
         body: formData,
+        // Remove Content-Type header - let browser set it with boundary for FormData
       });
 
       console.log('Upload response status:', res.status);
