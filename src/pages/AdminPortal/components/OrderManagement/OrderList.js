@@ -166,7 +166,7 @@ const OrderList = () => {
                         </Badge>
                         <div className={styles.orderMeta}>
                           <span className={styles.orderId}>
-  Client Id # {order.client_id}
+  User Id # {order.client_id}
 </span>
                           <span className={styles.orderDate}>
                             {order.date ? new Date(order.date).toLocaleDateString() : 'N/A'}

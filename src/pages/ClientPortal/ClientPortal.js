@@ -34,9 +34,12 @@ function clearPreselection() {
 }
 
 const PACKAGE_OPTIONS = [
-  { id: 1, name: "Starter",      photos: "5-10",  price: 49  },
-  { id: 2, name: "Professional", photos: "11-20", price: 99  },
-  { id: 3, name: "Premium",      photos: "21-30", price: 149 },
+  { id: 1, name: "Express",      photos: "5-10",  price: 60  },
+  { id: 2, name: "Quick", photos: "11-20", price: 100  },
+  { id: 3, name: "Standered",      photos: "21-30", price: 130 },
+  { id: 4, name: "Pro",      photos: "21-30", price: 200 },
+  { id: 5, name: "Ultra",      photos: "21-30", price: 280 },
+
 ];
 
 export default function ClientPortal() {
