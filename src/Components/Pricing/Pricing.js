@@ -21,7 +21,7 @@ const Pricing = () => {
 
   // (extra info based on tier)
   const tierFeatures = {
-    Express: { video: "30–45 seconds", photos: "6–9 photos" },
+    Express: { video: "30–45 seconds", photos: "5–9 photos" },
     Quick: { video: "~60 seconds", photos: "12 photos" },
     Standard: { video: "60–90 seconds", photos: "12–18 photos" },
     Pro: { video: "90–120 seconds", photos: "18–24 photos" },

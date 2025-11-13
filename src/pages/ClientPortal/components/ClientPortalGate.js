@@ -54,7 +54,7 @@ export default function ClientPortalGate({ packages, onContinue }) {
                 aria-pressed={active}
               >
                 <div className={styles.planHeader}>{p.name}</div>
-                <div className={styles.planPhotos}>{p.photos} photos</div>
+                <div className={styles.planPhotos}>{p.photos} Photos/Scenes</div>
                 <div className={styles.planPrice}>${p.price}</div>
               </button>
             );
