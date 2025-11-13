@@ -1,10 +1,9 @@
-
 /* Section Styling */
 .pricingSection {
   padding: 7rem 0;
   position: relative;
   overflow: hidden;
-background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
+  background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 }
 
 .backgroundImage {
@@ -71,14 +70,15 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   -webkit-backdrop-filter: blur(15px);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  height: 100%;
+  padding: 1.5rem;
+  height: auto;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  width: 300px;
+  width: 100%;
+  min-height: auto;
 }
 
 .pricingCard:hover {
@@ -112,7 +112,7 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 /* Card Header */
 .cardHeader {
   margin-bottom: 1.5rem;
-  text-align: center;
+  text-align: left;
 }
 
 .planName {
@@ -139,7 +139,7 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 
 /* Price Section */
 .priceSection {
-  text-align: center;
+  text-align: left;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3); 
@@ -161,15 +161,18 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 .featuresList {
   margin-bottom: 1.5rem;
   flex-grow: 1;
+  text-align: left;
 }
 
 .featureItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.6rem;
   color: #000000; 
   font-size: 0.9rem;
   font-weight: 500;
+  text-align: left;
+  line-height: 1.4;
 }
 
 .checkIcon {
@@ -178,6 +181,8 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   font-weight: bold;
   font-size: 0.9rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); 
+  flex-shrink: 0;
+  margin-top: 0.1rem;
 }
 
 .ctaButton {
@@ -195,6 +200,7 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   margin-top: auto;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+  width: 100%;
 }
 
 .ctaButton:hover {
@@ -204,7 +210,8 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 
 .pricingSlider {
   display: none;
-    height: 600px; 
+  height: auto;
+  min-height: 500px;
 }
 
 .sliderContainer {
@@ -212,16 +219,14 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   width: 100%;
   overflow: hidden;
   margin-bottom: 20px;
-    height: 100%; 
-
+  height: auto;
 }
 
 .sliderTrack {
   display: flex;
   transition: transform 0.3s ease;
   width: 100%;
-    height: 100%; 
-
+  height: auto;
 }
 
 .slide {
@@ -230,9 +235,7 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   justify-content: center;
   padding: 15px;
   box-sizing: border-box;
-    height: 100%; 
-
-  
+  height: auto;
 }
 
 .sliderNav {
@@ -240,7 +243,6 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   justify-content: center;
   margin-top: 20px;
   gap: 10px;
-
 }
 
 .sliderDot {
@@ -305,6 +307,12 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
     flex: 0 0 33.333333%;
     max-width: 33.333333%;
   }
+  
+  .cardHeader,
+  .priceSection,
+  .featuresList {
+    text-align: left;
+  }
 }
 
 @media (max-width: 768px) {
@@ -321,6 +329,8 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
     padding: 1.5rem;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    height: auto;
+    min-height: auto;
   }
   
   .price {
@@ -330,9 +340,17 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
   
   .featureItem {
     font-size: 1.1rem;
+    text-align: left;
   }
+  
   .backgroundImage {
     display: none !important;
+  }
+  
+  .cardHeader,
+  .priceSection,
+  .featuresList {
+    text-align: left;
   }
 }
 
@@ -347,17 +365,48 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
     position: relative;
     z-index: 2;
     width: 100%;
+    height: auto;
+    min-height: 450px;
   }
   
   .pricingCard {
-    max-width: 300px;
+    max-width: 100%;
     margin: 0 auto;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    height: auto;
+    min-height: auto;
+    padding: 1.5rem;
   }
   
   .sliderArrow {
     display: block;
+  }
+  
+  /* Left align all text content in mobile cards */
+  .cardHeader {
+    text-align: center;
+  }
+  
+  .priceSection {
+    text-align: center;
+  }
+  
+  .featuresList {
+    text-align: left;
+  }
+  
+  .featureItem {
+    text-align: left;
+    justify-content: flex-start;
+  }
+  
+  .planName {
+    text-align: center;
+  }
+  
+  .price {
+    text-align: center;
   }
 }
 
@@ -365,5 +414,24 @@ background-image: linear-gradient(135deg, #a855f7 , #1fb454 100%);
 @media (min-width: 577px) {
   .sliderArrow {
     display: none;
+  }
+}
+
+/* Ensure cards don't have unnecessary empty space */
+@media (max-width: 576px) {
+  .pricingSection {
+    padding: 4rem 0;
+  }
+  
+  .pricingCard {
+    gap: 1rem;
+  }
+  
+  .featuresList {
+    margin-bottom: 1rem;
+  }
+  
+  .ctaButton {
+    margin-top: auto;
   }
 }

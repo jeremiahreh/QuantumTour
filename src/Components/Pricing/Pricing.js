@@ -11,7 +11,6 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-
 const Pricing = () => {
   const { getPublicPricing } = useAdminData();
   const pricingPlans = getPublicPricing();
@@ -20,7 +19,7 @@ const Pricing = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderTrackRef = useRef(null);
 
-  //  (extra info based on tier)
+  // (extra info based on tier)
   const tierFeatures = {
     Express: { video: "30–45 seconds", photos: "6–9 photos" },
     Quick: { video: "~60 seconds", photos: "12 photos" },
@@ -48,33 +47,34 @@ const Pricing = () => {
 
   useEffect(() => {
     // ✅ NEW (fixed):
-gsap.fromTo(sectionRef.current ? sectionRef.current.querySelector('[class*="sectionTitle"]') : null, 
-  { y: 50, opacity: 0 },
-  { 
-    y: 0, 
-    opacity: 1, 
-    duration: 0.8,
-    scrollTrigger: {
-      trigger: sectionRef.current ? sectionRef.current.querySelector('[class*="sectionTitle"]') : null,
-      start: 'top 80%',
-      toggleActions: 'play none none reverse'
-    }
-  }
-);
+    gsap.fromTo(sectionRef.current ? sectionRef.current.querySelector('[class*="sectionTitle"]') : null, 
+      { y: 50, opacity: 0 },
+      { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: sectionRef.current ? sectionRef.current.querySelector('[class*="sectionTitle"]') : null,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
 
     // ✅ NEW (fixed):
-gsap.fromTo(sectionRef.current ? sectionRef.current.querySelector('[class*="backgroundImage"]') : null, 
-  { opacity: 0 },
-  { 
-    opacity: 1, 
-    duration: 1.5,
-    scrollTrigger: {
-      trigger: sectionRef.current,
-      start: 'top bottom',
-      toggleActions: 'play none none reverse'
-    }
-  }
-);
+    gsap.fromTo(sectionRef.current ? sectionRef.current.querySelector('[class*="backgroundImage"]') : null, 
+      { opacity: 0 },
+      { 
+        opacity: 1, 
+        duration: 1.5,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+    
     cardRefs.current.forEach((card, index) => {
       if (card) {
         gsap.fromTo(card, 
