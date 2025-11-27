@@ -81,12 +81,15 @@ const portalApi = {
   /* ------------------ ORDERS ------------------ */
 
   createOrder(userId, pkgName, addOns, files) {
-    const fd = new FormData();
-    fd.append("user_id", userId);
-    fd.append("package", pkgName);
-    if (addOns) fd.append("add_ons", JSON.stringify(addOns));
-    if (files && files.length) files.forEach(f => fd.append("files", f));
-    return post(`${CLIENT_PREFIX}/orders/new`, fd, false);
+  const fd = new FormData();
+  fd.append("user_id", userId);
+  fd.append("package", pkgName);
+  if (addOns) fd.append("add_ons", JSON.stringify(addOns));
+  if (files && files.length) files.forEach(f => fd.append("files", f));
+  
+  // Call the upload endpoint instead of orders/new
+  console.log("🚀 Calling upload endpoint...");
+  return this.upload(fd);
   },
 
   reorder(orderId) {
@@ -136,10 +139,11 @@ const portalApi = {
   },
 
   /* ------------------ UPLOAD ------------------ */
-  // upload(formData) {
-  //   // ✅ Matches POST /upload
-  //   return post(`${CLIENT_PREFIX}/upload`, formData, false);
-  // },
+  upload(formData) {
+  // ✅ Calls POST /upload directly (without CLIENT_PREFIX)
+  console.log("🎯 Making POST request to /upload");
+  return post(`/upload`, formData, false);
+ },
 
   /* ------------------ STRIPE ------------------ */
   createCheckoutSession(payload) {
@@ -152,4 +156,3 @@ const portalApi = {
 };
 
 export default portalApi;
-

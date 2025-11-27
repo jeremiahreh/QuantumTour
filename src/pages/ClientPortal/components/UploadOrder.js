@@ -90,6 +90,9 @@ const UploadOrder = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🖱️ Submit button clicked");
+    console.log("📸 Selected files:", selectedFiles);
+    console.log("📦 Selected package:", selectedPkg);
     if (selectedFiles.length === 0) return alert("Please upload at least one photo.");
     if (!selectedPackage) return alert("Please select a package.");
 
@@ -118,7 +121,16 @@ const UploadOrder = ({
     } finally {
       setIsSubmitting(false);
     }
-
+   try {
+    console.log("📡 Calling portalApi.createOrder...");
+    const order = await portalApi.createOrder(userId, selectedPkg.name, addons, selectedFiles);
+    console.log("✅ Order created successfully:", order);
+    
+    onSubmit(order);
+  } catch (err) {
+    console.error("❌ Order submission error:", err);
+    alert(err.message || "Order submission failed.");
+  }
   };
 
   return (
