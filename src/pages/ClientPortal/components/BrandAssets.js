@@ -64,18 +64,45 @@ export default function BrandAssets({ assets = {}, onUpdate }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const payload = {
-        ...formData,
-        logos: logos.map((it) => it.file ?? it.url), 
-      };
-      await onUpdate?.(payload);
-      alert('Brand assets updated successfully!');
-    } catch (err) {
-      console.error('Update failed:', err);
+  e.preventDefault();
+  try {
+    const form = new FormData();
+
+    // Add non-file fields
+    form.append("colorScheme", formData.colorScheme || "");
+    form.append("font", formData.font || "");
+
+    // Add ALL logos as `file`
+    logos.forEach((it) => {
+      if (it.file) {
+        form.append("file", it.file);  // backend is expecting this name
+      } else {
+        form.append("file", it.url);   // if backend supports URL strings
+      }
+    });
+
+    const response = await fetch("https://quantum-tour-backend.onrender.com/api/client/brand_assets", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+      },
+      body: form,
+    });
+
+    const body = await response.text();
+    console.log("Server response body:", body);
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
     }
-  };
+
+    alert("Brand assets updated successfully!");
+  } catch (err) {
+    console.error("Update failed:", err);
+    alert("Failed to update brand assets.");
+  }
+};
+
 
   const bubbles = useMemo(() => {
     const N = 18;
