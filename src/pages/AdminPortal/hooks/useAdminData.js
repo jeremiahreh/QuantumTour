@@ -33,11 +33,12 @@
 import { useState } from 'react';
 
 // Create a context-like shared state
+// Create a context-like shared state
 let sharedPricingState = [
     {
       id: 1,
       name: 'Express',
-      photos: '1-10',
+      photos: '5-9',
       price: 60,
       turnaround: '48 hours',
       popular: false
@@ -45,7 +46,7 @@ let sharedPricingState = [
     {
       id: 2,
       name: 'Quick',
-      photos: '11-25',
+      photos: 'Include 12 ',
       price: 100,
       turnaround: '36 hours',
       popular: true
@@ -53,7 +54,7 @@ let sharedPricingState = [
     {
       id: 3,
       name: 'Standard',
-      photos: '26-50',
+      photos: '12-18',
       price: 130,
       turnaround: '24 hours',
       popular: false
@@ -61,7 +62,7 @@ let sharedPricingState = [
     {
       id: 4,
       name: 'Pro',
-      photos: '50+',
+      photos: '18-24',
       price: 200,
       turnaround: 'Custom',
       popular: false
@@ -69,7 +70,7 @@ let sharedPricingState = [
     {
       id: 5,
       name: 'Ultra',
-      photos: '50+',
+      photos: '24-30',
       price: 280,
       turnaround: 'Custom',
       popular: false
