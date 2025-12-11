@@ -28,7 +28,7 @@ const BUNDLES = {
   socialBoost: {
     label: "Social Boost Pack — $90",
     price: 90,
-    includes: ["reelSplit", "voiceoverAI", "rush12h"],
+    includes: ["reelSplit", "voiceoverAI", "rush12h", "rush4h"],
     blurb: "Reel Split + Voiceover + Rush Delivery",
   },
   agentPresenter: {
@@ -51,6 +51,7 @@ const PRICES = {
   reelSplit: 50,
   extraReel: 10,
   rush12h: 50,
+  rush4h: 30,
   revisionRound: 10,
   premiumEdit: 40,
 };
@@ -66,6 +67,8 @@ function total(a) {
   if (a.premiumEdit && !covered.has("premiumEdit")) t += PRICES.premiumEdit;
   if (a.extraReels > 0) t += a.extraReels * PRICES.extraReel;
   if (a.revisionRounds > 0) t += a.revisionRounds * PRICES.revisionRound;
+  if (a.rush4h && !covered.has("rush4h")) t += PRICES.rush4h;
+
   return t;
 }
 
