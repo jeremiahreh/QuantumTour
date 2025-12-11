@@ -34,11 +34,11 @@ function clearPreselection() {
 }
 
 const PACKAGE_OPTIONS = [
-  { id: 1, name: "Express",      photos: "5-10",  price: 60  },
-  { id: 2, name: "Quick", photos: "11-20", price: 100  },
-  { id: 3, name: "Standered",      photos: "21-30", price: 130 },
-  { id: 4, name: "Pro",      photos: "21-30", price: 200 },
-  { id: 5, name: "Ultra",      photos: "21-30", price: 280 },
+  { id: 1, name: "Express",      photos: "5-9",  price: 60  },
+  { id: 2, name: "Quick", photos: "12 ", price: 100  },
+  { id: 3, name: "Standered",      photos: "12-18", price: 130 },
+  { id: 4, name: "Pro",      photos: "18-24", price: 200 },
+  { id: 5, name: "Ultra",      photos: "24-30", price: 280 },
 
 ];
 
