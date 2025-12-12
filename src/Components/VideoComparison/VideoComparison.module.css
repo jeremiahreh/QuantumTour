@@ -264,3 +264,8 @@
     margin-top: 8px;
   }
 }
+
+
+.word {
+  display: inline;  /* NOT inline-block or block */
+}
