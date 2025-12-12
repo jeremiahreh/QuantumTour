@@ -90,7 +90,7 @@ import React, { useEffect, useRef } from 'react';
        { yPercent: 0 }, 0
      )
      .fromTo(imagesRef.current[index], { yPercent: 15 * dFactor }, { yPercent: 0 }, 0)
-     .fromTo(new SplitText(headingsRef.current[index], { type: "chars", charsClass: styles.clipText }).chars, {
+     .fromTo(new SplitText(headingsRef.current[index], { type: "chars", charsClass: styles.clipText }).words, {
        autoAlpha: 0,
        yPercent: 150 * dFactor
      }, {
@@ -109,18 +109,18 @@ import React, { useEffect, useRef } from 'react';
 
    useEffect(() => {
      const splitTitle = new SplitText(titleRef.current, {
-       type: "chars",
-       charsClass: styles.char
+       type: "words",
+       charsClass: styles.words
      });
 
-     gsap.set(splitTitle.chars, {
+     gsap.set(splitTitle.words, {
        opacity: 0,
        y: 100,
        rotationX: -90,
        scale: 0.5
      });
 
-     gsap.to(splitTitle.chars, {
+     gsap.to(splitTitle.words, {
        opacity: 1,
        y: 0,
        rotationX: 0,
