@@ -135,11 +135,19 @@ const VideoComparison = ({
       const words = text.split(" ");
       
       words.forEach((word, i) => {
-        const wordSpan = document.createElement("span");
-        wordSpan.className = styles.word;
-        wordSpan.textContent = word + (i < words.length - 1 ? " " : "");
-        textContainer.appendChild(wordSpan);
-      });
+  const wordSpan = document.createElement("span");
+  wordSpan.className = styles.word;
+  
+  // Add word
+  wordSpan.appendChild(document.createTextNode(word));
+  
+  // Add space after word (except last word)
+  if (i < words.length - 1) {
+    wordSpan.appendChild(document.createTextNode(" "));
+  }
+  
+  textContainer.appendChild(wordSpan);
+});
       
       titleElement.innerHTML = "";
       titleElement.appendChild(textContainer);
