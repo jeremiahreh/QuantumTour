@@ -16,7 +16,7 @@ const CostComparison = () => {
       icon: "🎬",
       title: "Cinematic Quality",
       items: [
-        { label: "AI-Enhanced Production", desc: "Smooth pans, dynamic motion, and professional music." },
+        { label: "Human + AI-Enhanced Production", desc: "AI streamlines the process while humans guide creativity, judgment, and final quality." },
         { label: "Consistent Branding", desc: "Every video features your logo, colors, and call-to-action." },
         { label: "Versatile Formats", desc: "Perfect for MLS, Instagram Reels, and YouTube." }
       ],
