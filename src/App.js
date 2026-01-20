@@ -54,11 +54,11 @@ const HomePage = () => (
       comparisons={[
         {
           photo: require("./assets/images/before1.png"),
-          video: require("./assets/videos/before1.mp4"),
+          video: require("./assets/videos/after1.mp4"),
         },
         {
-          photo: require("./assets/images/before2.png"),
-          video: require("./assets/videos/before2.mp4"),
+          photo: require("./assets/images/before3.png"),
+          video: require("./assets/videos/after3.mp4"),
         },
       ]}
       slideInterval={6000}
