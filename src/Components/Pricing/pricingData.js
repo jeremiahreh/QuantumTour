@@ -19,7 +19,7 @@ export const pricingPlans = [
     popular: true
   },
   {
-    package: 'Standered',
+    package: 'Standard',
     photocount: '26-50 photos',
     turnaround: '24 hours',
     price: '$130',

@@ -1,36 +1,102 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { gsap } from 'gsap';
-
-import {  ScrollTrigger } from '../../utils/gsapConfig';
+import { ScrollTrigger } from '../../utils/gsapConfig';
 import styles from "./VideoComparison.module.css";
 import { Container, Row, Col } from "react-bootstrap";
-
 
 const VideoComparison = ({
   title,
   description,
   comparisons,
-  slideInterval = 5000,
+  imageSlideInterval = 2500, // 2.5 seconds for image slideshow
   showLabels = true,
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [activePairIndex, setActivePairIndex] = useState(0);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isImagePlaying, setIsImagePlaying] = useState(true);
+  
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const headingRef = useRef(null);
   const frameRef = useRef(null);
   const titleRef = useRef(null);
   const animationRef = useRef(null);
+  const imageIntervalRef = useRef(null);
 
-  // Reset video when source changes
+  // Get current comparison pair
+  const currentComparison = comparisons[activePairIndex];
+  
+  // Check if current pair has multiple images
+  const hasMultipleImages = currentComparison?.photos && Array.isArray(currentComparison.photos);
+  const currentImages = hasMultipleImages ? currentComparison.photos : [currentComparison?.photo];
+  const currentVideo = currentComparison?.video;
+
+  // Reset states when pair changes
   useEffect(() => {
+    setActiveImageIndex(0);
+    setIsImagePlaying(true);
+    
+    // Load and play new video
     if (videoRef.current) {
       videoRef.current.load();
-      videoRef.current
-        .play()
-        .catch((e) => console.log("Autoplay prevented:", e));
+      videoRef.current.play().catch((e) => console.log("Autoplay prevented:", e));
     }
-  }, [activeIndex, comparisons]);
+  }, [activePairIndex]);
+
+  // Image slideshow effect - changes image every 2.5 seconds
+  useEffect(() => {
+    if (!isImagePlaying || !hasMultipleImages) return;
+
+    imageIntervalRef.current = setInterval(() => {
+      setActiveImageIndex((prev) => (prev + 1) % currentImages.length);
+    }, imageSlideInterval);
+
+    return () => {
+      if (imageIntervalRef.current) {
+        clearInterval(imageIntervalRef.current);
+      }
+    };
+  }, [isImagePlaying, hasMultipleImages, currentImages.length, imageSlideInterval]);
+
+  // Handle video end - advance to next pair
+  const handleVideoEnded = useCallback(() => {
+    console.log("Video ended, advancing to next pair");
+    goToNextPair();
+  }, [activePairIndex, comparisons.length]);
+
+  const goToNextPair = useCallback(() => {
+    setActivePairIndex((prev) => (prev + 1) % comparisons.length);
+    setIsImagePlaying(true);
+  }, [comparisons.length]);
+
+  const goToPrevPair = () => {
+    setActivePairIndex((prev) => 
+      prev === 0 ? comparisons.length - 1 : prev - 1
+    );
+    setIsImagePlaying(true);
+  };
+
+  const resetImageAutoPlay = useCallback(() => {
+    setIsImagePlaying(false);
+    setTimeout(() => setIsImagePlaying(true), imageSlideInterval * 2);
+  }, [imageSlideInterval]);
+
+  // Manual navigation handlers
+  const handleManualNext = () => {
+    goToNextPair();
+    resetImageAutoPlay();
+  };
+
+  const handleManualPrev = () => {
+    goToPrevPair();
+    resetImageAutoPlay();
+  };
+
+  const handleIndicatorClick = (index) => {
+    setActivePairIndex(index);
+    setActiveImageIndex(0);
+    resetImageAutoPlay();
+  };
 
   // Animate floating background circles
   useEffect(() => {
@@ -55,33 +121,6 @@ const VideoComparison = ({
       });
     }
   }, []);
-
-  const resetAutoPlay = useCallback(() => {
-    setIsPlaying(false);
-    setTimeout(() => setIsPlaying(true), slideInterval * 2);
-  }, [slideInterval]);
-
-  const goToNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % comparisons.length);
-    resetAutoPlay();
-  }, [comparisons.length, resetAutoPlay]);
-
-  const goToPrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? comparisons.length - 1 : prev - 1
-    );
-    resetAutoPlay();
-  };
-
-  // Auto-advance
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isPlaying && comparisons?.length) {
-        goToNext();
-      }
-    }, slideInterval);
-    return () => clearInterval(interval);
-  }, [isPlaying, comparisons?.length, slideInterval, goToNext]);
 
   // GSAP animations
   useEffect(() => {
@@ -135,24 +174,23 @@ const VideoComparison = ({
       const words = text.split(" ");
       
       words.forEach((word, i) => {
-  const wordSpan = document.createElement("span");
-  wordSpan.className = styles.word;
-  
-  // Add word
-  wordSpan.appendChild(document.createTextNode(word));
-  
-  // Add space after word (except last word)
-  if (i < words.length - 1) {
-    wordSpan.appendChild(document.createTextNode(" "));
-  }
-  
-  textContainer.appendChild(wordSpan);
-});
+        const wordSpan = document.createElement("span");
+        wordSpan.className = styles.word;
+        
+        wordSpan.appendChild(document.createTextNode(word));
+        
+        if (i < words.length - 1) {
+          wordSpan.appendChild(document.createTextNode(" "));
+        }
+        
+        textContainer.appendChild(wordSpan);
+      });
       
       titleElement.innerHTML = "";
       titleElement.appendChild(textContainer);
       
-const wordElements = titleElement.querySelectorAll(`[class*="word"]`);      if (wordElements.length > 0) {
+      const wordElements = titleElement.querySelectorAll(`[class*="word"]`);
+      if (wordElements.length > 0) {
         gsap.set(wordElements, {
           opacity: 0,
           y: 80
@@ -232,43 +270,54 @@ const wordElements = titleElement.querySelectorAll(`[class*="word"]`);      if (
               <div className={styles.mediaWrapper}>
                 <button
                   className={`${styles.navArrow} ${styles.arrowLeft}`}
-                  onClick={goToPrev}
+                  onClick={handleManualPrev}
                 >&#8249;
                   <i className="bi bi-chevron-left"></i>
                 </button>
 
                 <div className={styles.mediaGrid}>
+                  {/* BEFORE - Image Slideshow */}
                   <div className={styles.mediaColumn}>
                     <div className={styles.mediaFrame}>
                       <img
-                        src={comparisons[activeIndex]?.photo}
-                        alt="Before"
+                        src={currentImages[activeImageIndex]}
+                        alt={`Before ${activeImageIndex + 1}`}
                         className={styles.mediaContent}
                         loading="lazy"
                       />
                     </div>
                     {showLabels && (
                       <div className={styles.labelContainer}>
-                        <span className={styles.mediaLabel}>Before</span>
+                        <span className={styles.mediaLabel}>
+                          Before ({activeImageIndex + 1}/{currentImages.length})
+                        </span>
+                      </div>
+                    )}
+                    {/* Image indicators if multiple images */}
+                    {hasMultipleImages && (
+                      <div className={styles.imageIndicators}>
+                        {currentImages.map((_, idx) => (
+                          <span
+                            key={idx}
+                            className={`${styles.imageDot} ${idx === activeImageIndex ? styles.active : ''}`}
+                          />
+                        ))}
                       </div>
                     )}
                   </div>
 
-                  {/* AFTER - Fixed structure */}
+                  {/* AFTER - Single Video */}
                   <div className={styles.mediaColumn}>
                     <div className={styles.mediaFrame}>
                       <video
                         ref={videoRef}
                         autoPlay
-                        loop
                         muted
                         playsInline
+                        onEnded={handleVideoEnded}
                         className={styles.mediaContent}
                       >
-                        <source
-                          src={comparisons[activeIndex]?.video}
-                          type="video/mp4"
-                        />
+                        <source src={currentVideo} type="video/mp4" />
                       </video>
                     </div>
                     {showLabels && (
@@ -282,7 +331,7 @@ const wordElements = titleElement.querySelectorAll(`[class*="word"]`);      if (
                 {/* Right Arrow */}
                 <button
                   className={`${styles.navArrow} ${styles.arrowRight}`}
-                  onClick={goToNext}
+                  onClick={handleManualNext}
                 >&#8250;
                   <i className="bi bi-chevron-right"></i>
                 </button>
@@ -292,6 +341,7 @@ const wordElements = titleElement.querySelectorAll(`[class*="word"]`);      if (
         </Col>
       </Row>
 
+      {/* Pair Indicators */}
       <Row className="justify-content-center mx-0 mt-3 mt-md-4">
         <Col xs="auto" className="px-0">
           <div className={styles.indicators}>
@@ -299,12 +349,9 @@ const wordElements = titleElement.querySelectorAll(`[class*="word"]`);      if (
               <button
                 key={index}
                 className={`${styles.indicator} ${
-                  index === activeIndex ? styles.active : ""
+                  index === activePairIndex ? styles.active : ""
                 }`}
-                onClick={() => {
-                  setActiveIndex(index);
-                  resetAutoPlay();
-                }}
+                onClick={() => handleIndicatorClick(index)}
               />
             ))}
           </div>
