@@ -67,32 +67,32 @@ const HomePage = () => (
 
 
 
-        {
-        photos: [  // 2nd pair
-        require("./assets/images/before4-1.jpg"),
-        require("./assets/images/before4-2.jpg"),
-        require("./assets/images/before4-3.jpg"),
-        require("./assets/images/before4-4.jpg"),
-        require("./assets/images/before4-5.jpg"),
-        require("./assets/images/before4-6.jpg"),
-        require("./assets/images/before4-7.jpg"),
-        ],
-        video: require("./assets/videos/after4.mp4")
-        },
+        // {
+        // photos: [  // 2nd pair
+        // require("./assets/images/before4-1.jpg"),
+        // require("./assets/images/before4-2.jpg"),
+        // require("./assets/images/before4-3.jpg"),
+        // require("./assets/images/before4-4.jpg"),
+        // require("./assets/images/before4-5.jpg"),
+        // require("./assets/images/before4-6.jpg"),
+        // require("./assets/images/before4-7.jpg"),
+        // ],
+        // video: require("./assets/videos/after4.mp4")
+        // },
         
 
-        {
-        photos: [  // 3rd pair
-        require("./assets/images/before3-1.jpg"),
-        require("./assets/images/before3-2.jpg"),
-        require("./assets/images/before3-3.jpg"),
-        require("./assets/images/before3-4.jpg"),
-        require("./assets/images/before3-5.jpg"),
-        require("./assets/images/before3-6.jpg"),
-        require("./assets/images/before3-7.jpg"),
-        ],
-        video: require("./assets/videos/after3.mp4")
-        },
+        // {
+        // photos: [  // 3rd pair
+        // require("./assets/images/before3-1.jpg"),
+        // require("./assets/images/before3-2.jpg"),
+        // require("./assets/images/before3-3.jpg"),
+        // require("./assets/images/before3-4.jpg"),
+        // require("./assets/images/before3-5.jpg"),
+        // require("./assets/images/before3-6.jpg"),
+        // require("./assets/images/before3-7.jpg"),
+        // ],
+        // video: require("./assets/videos/after3.mp4")
+        // },
 
 
 
