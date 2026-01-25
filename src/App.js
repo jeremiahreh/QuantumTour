@@ -43,7 +43,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const HomePage = () => (
   <>
     <Hero
-      title="Turn Your Listing Photos Into Cinematic Videos — Delivered in 24 Hours."
+      title="Turn Your Listings Photos Into Cinematic Videos — Delivered in 24 Hours."
       subtitle="Engage more buyers and close faster with professional listing videos designed for today's market. No filming. No editing. Just results."
     />
     <ClientLogos />
@@ -93,11 +93,6 @@ const HomePage = () => (
         // ],
         // video: require("./assets/videos/after3.mp4")
         // },
-
-
-
-
-
 
 
       ]}
