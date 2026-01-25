@@ -549,3 +549,31 @@
     display: none;
   }
 }
+
+
+
+/* Add these at the end of your file */
+
+/* Mobile slider cards should be visible by default since they don't get GSAP animation */
+@media (max-width: 576px) {
+  .slide .pricingCard {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  /* Ensure slider container is properly sized */
+  .sliderContainer {
+    height: auto;
+    min-height: 400px;
+  }
+  
+  .slide {
+    height: auto;
+  }
+}
+
+/* Also fix: Ensure pricing cards in slider are visible when JS is disabled or GSAP fails */
+.pricingSlider .pricingCard {
+  opacity: 1;
+  transform: none;
+}

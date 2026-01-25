@@ -15,10 +15,18 @@ const OrderList = () => {
   } = useOrders();
   const [uploading, setUploading] = useState({});
   const [modalVideo, setModalVideo] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
   const cardsRef = useRef([]);
 
+  // Pagination logic
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+
   useEffect(() => {
-    if (orders.length > 0 && cardsRef.current.length > 0) {
+    if (currentOrders.length > 0 && cardsRef.current.length > 0) {
       const tl = gsap.timeline();
       tl.fromTo(
         cardsRef.current,
@@ -37,7 +45,12 @@ const OrderList = () => {
         },
       );
     }
-  }, [orders]);
+  }, [currentOrders]);
+
+  // Reset to page 1 when orders change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [orders.length]);
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
@@ -101,6 +114,22 @@ const OrderList = () => {
     setModalVideo(null);
   };
 
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   if (loading) {
     return (
       <div className={styles.loadingWrapper}>
@@ -150,8 +179,8 @@ const OrderList = () => {
         <Card.Body className={styles.invoiceBody}>
           {/* Card Layout - Replaced Table */}
           <div className={styles.ordersGrid}>
-            {orders.length > 0 ? (
-              orders.map((order, index) => {
+            {currentOrders.length > 0 ? (
+              currentOrders.map((order, index) => {
                 const hasPreviewVideos =
                   order.videoUrl || (order.videos && order.videos.length > 0);
                 const additionalVideosCount = order.videos
@@ -186,7 +215,7 @@ const OrderList = () => {
   <div className={styles.packageInfo}>
     <span className={styles.packageName}>{order.package}</span>
     <span className={styles.photosCount}>{order.photos} photos</span>
-    
+
     {/* Add-ons Display */}
     {order.addOns && order.addOns.length > 0 ? (
       <div className={styles.addOnsWrapper}>
@@ -208,7 +237,9 @@ const OrderList = () => {
   </div>
 </div>
 
-                    {/* Main Content - Single Video Preview Section */}
+                    {/* 
+                    // VIDEO PREVIEW SECTION - COMMENTED OUT
+
                     <div className={styles.cardContent}>
                       <div className={styles.videoSection}>
                         <h4 className={styles.sectionTitle}>VIDEO PREVIEW</h4>
@@ -260,8 +291,11 @@ const OrderList = () => {
                         )}
                       </div>
                     </div>
+                    */}
 
-                    {/* Actions Section */}
+                    {/* 
+                    // ACTION BUTTONS SECTION - COMMENTED OUT
+
                     <div className={styles.cardActions}>
                       <div className={styles.statusActions}>
                         <h4 className={styles.sectionTitle}>UPDATE STATUS</h4>
@@ -368,6 +402,7 @@ const OrderList = () => {
                         </div>
                       )}
                     </div>
+                    */}
                   </div>
                 );
               })
@@ -380,15 +415,49 @@ const OrderList = () => {
             )}
           </div>
 
+          {/* Pagination Controls */}
           {orders.length > 0 && (
-            <div className={styles.ordersCount}>
-              Total Orders: {orders.length}
+            <div className={styles.paginationContainer}>
+              <div className={styles.paginationInfo}>
+                Showing {indexOfFirstOrder + 1} to {Math.min(indexOfLastOrder, orders.length)} of {orders.length} orders
+              </div>
+              <div className={styles.paginationControls}>
+                <button
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                  className={styles.paginationButton}
+                >
+                  ← Previous
+                </button>
+
+                <div className={styles.pageNumbers}>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => goToPage(number)}
+                      className={`${styles.pageNumber} ${currentPage === number ? styles.activePage : ''}`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className={styles.paginationButton}
+                >
+                  Next →
+                </button>
+              </div>
             </div>
           )}
         </Card.Body>
       </Card>
 
-      {/* Modal Overlay for Large Video Preview */}
+      {/* 
+      // MODAL OVERLAY - COMMENTED OUT (only used for video preview)
+
       {modalVideo && (
         <div
           className={styles.modalOverlay}
@@ -405,7 +474,7 @@ const OrderList = () => {
               onClick={closeModal}
               aria-label="Close video preview"
             >
-              &times;
+              ×
             </button>
             <video
               src={modalVideo.videoUrl}
@@ -418,6 +487,7 @@ const OrderList = () => {
           </div>
         </div>
       )}
+      */}
     </>
   );
 };
