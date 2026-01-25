@@ -69,10 +69,52 @@ console.log('First order in ordersArray:', ordersArray[0]);
 const transformedOrders = ordersArray.map((order, index) => {
   console.log('Raw order object:', order);
   
+  // Parse add_ons JSON string to object
+  let parsedAddOns = [];
+  try {
+    if (order.add_ons) {
+      const addOnsObj = typeof order.add_ons === 'string' 
+        ? JSON.parse(order.add_ons) 
+        : order.add_ons;
+      
+      // Extract only the add-ons that are true/selected
+      const addOnsMap = {
+        'voiceoverAI': 'AI Voiceover',
+        'talkThrough': 'Talk Through',
+        'reelSplit': 'Reel Split',
+        'rush12h': 'Rush 12h',
+        'rush4h': 'Rush 4h',
+        'premiumEdit': 'Premium Edit',
+        'extraReels': 'Extra Reels',
+        'revisionRounds': 'Revision Rounds',
+        'bundle': 'Bundle',
+        'freeSoundtrack': 'Free Soundtrack',
+        'freeBrandingOverlay': 'Branding Overlay',
+        'freeTitleCards': 'Title Cards'
+      };
+      
+      parsedAddOns = Object.entries(addOnsObj)
+        .filter(([key, value]) => {
+          // Include if boolean true or number > 0 or non-empty string
+          return value === true || (typeof value === 'number' && value > 0) || (typeof value === 'string' && value.length > 0);
+        })
+        .map(([key, value]) => {
+          // If it's a number > 0, show count
+          if (typeof value === 'number') {
+            return `${addOnsMap[key] || key} (${value})`;
+          }
+          return addOnsMap[key] || key;
+        });
+    }
+  } catch (e) {
+    console.error('Error parsing add_ons:', e);
+    parsedAddOns = [];
+  }
+  
   return {
     id: order.order_id || order.id || `order-${index}`,
-    client_id: order.user_id, // ✅ Map user_id to client_id
-    client: order.user_id,    // ✅ Map user_id to client for compatibility
+    client_id: order.user_id,
+    client: order.user_id,
     order_id: order.order_id,
     status: order.status || 'unknown',
     package: order.package || 'Unknown',
@@ -81,10 +123,11 @@ const transformedOrders = ordersArray.map((order, index) => {
     videoUrl: order.videos && order.videos.length > 0 ? order.videos[0].url : null,
     finalVideoUrl: null,
     videos: order.videos || [],
-    user_id: order.user_id,        // ✅ Keep original user_id
-    user_email: order.user_email,   // ✅ Add email
-    user_name: order.user_name,     // ✅ Add name
-    user_code: order.user_code      // ✅ Add user code
+    user_id: order.user_id,
+    user_email: order.user_email || 'N/A',  // Handle null emails
+    user_name: order.user_name || 'Unknown',
+    user_code: order.user_code,
+    addOns: parsedAddOns  // Now it's an array of strings
   };
 });
 
