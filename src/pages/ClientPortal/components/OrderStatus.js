@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 const STATUS = {
   submitted:  { label: "Submitted"  },
   processing: { label: "Processing" },
-  completed:  { label: "Completed"  },
+  completed:  { label: "Edited"  },
 };
 const palettes = [styles.palettePurple, styles.paletteBlue, styles.paletteTeal];
 const formatYMD = v => {
