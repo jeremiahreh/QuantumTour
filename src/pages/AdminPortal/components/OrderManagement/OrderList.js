@@ -26,10 +26,13 @@ const OrderList = () => {
   const totalPages = Math.ceil(orders.length / ordersPerPage);
 
   useEffect(() => {
-    if (currentOrders.length > 0 && cardsRef.current.length > 0) {
+    // Filter out null elements before animating
+    const validElements = cardsRef.current.filter((el) => el !== null);
+
+    if (validElements.length > 0) {
       const tl = gsap.timeline();
       tl.fromTo(
-        cardsRef.current,
+        validElements,
         {
           opacity: 0,
           y: 50,
@@ -191,51 +194,73 @@ const OrderList = () => {
                   <div
                     key={order.id}
                     className={styles.orderCard}
-                    ref={(el) => (cardsRef.current[index] = el)}
+                    ref={(el) => {
+                      // Only assign if element exists, and clean up if unmounting
+                      if (el) {
+                        cardsRef.current[index] = el;
+                      }
+                    }}
                   >
                     {/* Header Section */}
-<div className={styles.cardHeader}>
-  <div className={styles.orderBasicInfo}>
-    <Badge className={`${styles.orderStatus} ${styles[`status_${order.status}`]}`}>
-      {order.status?.toUpperCase() || 'UNKNOWN'}
-    </Badge>
-    <div className={styles.orderMeta}>
-      <span className={styles.orderId}>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.orderBasicInfo}>
+                        <Badge
+                          className={`${styles.orderStatus} ${styles[`status_${order.status}`]}`}
+                        >
+                          {order.status?.toUpperCase() || "UNKNOWN"}
+                        </Badge>
+                        <div className={styles.orderMeta}>
+                          {/* <span className={styles.orderId}>
         User Id # {order.client_id}
-      </span>
-      {/* Email Display */}
-      <span className={styles.orderEmail} title={order.user_email}>
-        {order.user_email}
-      </span>
-      <span className={styles.orderDate}>
-        {order.date ? new Date(order.date).toLocaleDateString() : 'N/A'}
-      </span>
-    </div>
-  </div>
-  <div className={styles.packageInfo}>
-    <span className={styles.packageName}>{order.package}</span>
-    <span className={styles.photosCount}>{order.photos} photos</span>
+      </span> */}
 
-    {/* Add-ons Display */}
-    {order.addOns && order.addOns.length > 0 ? (
-      <div className={styles.addOnsWrapper}>
-        <span className={styles.addOnsLabel}>Add-ons:</span>
-        <div className={styles.addOnsList}>
-          {order.addOns.map((addon, idx) => (
-            <span key={idx} className={styles.addOnTag}>
-              {addon}
-            </span>
-          ))}
-        </div>
-      </div>
-    ) : (
-      <div className={styles.addOnsWrapper}>
-        <span className={styles.addOnsLabel}>Add-ons:</span>
-        <span className={styles.noAddOns}>None</span>
-      </div>
-    )}
-  </div>
-</div>
+                          {/* NEW - Shows User Name */}
+                          <span className={styles.userName}>
+                            {order.user_name || "Unknown User"}
+                          </span>
+
+                          {/* Email Display */}
+                          <span
+                            className={styles.orderEmail}
+                            title={order.user_email}
+                          >
+                            {order.user_email}
+                          </span>
+                          <span className={styles.orderDate}>
+                            {order.date
+                              ? new Date(order.date).toLocaleDateString()
+                              : "N/A"}
+                          </span>
+                        </div>
+                      </div>
+                      <div className={styles.packageInfo}>
+                        <span className={styles.packageName}>
+                          {order.package}
+                        </span>
+                        <span className={styles.photosCount}>
+                          {order.photos} photos
+                        </span>
+
+                        {/* Add-ons Display */}
+                        {order.addOns && order.addOns.length > 0 ? (
+                          <div className={styles.addOnsWrapper}>
+                            <span className={styles.addOnsLabel}>Add-ons:</span>
+                            <div className={styles.addOnsList}>
+                              {order.addOns.map((addon, idx) => (
+                                <span key={idx} className={styles.addOnTag}>
+                                  {addon}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className={styles.addOnsWrapper}>
+                            <span className={styles.addOnsLabel}>Add-ons:</span>
+                            <span className={styles.noAddOns}>None</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
                     {/* 
                     // VIDEO PREVIEW SECTION - COMMENTED OUT
@@ -419,7 +444,9 @@ const OrderList = () => {
           {orders.length > 0 && (
             <div className={styles.paginationContainer}>
               <div className={styles.paginationInfo}>
-                Showing {indexOfFirstOrder + 1} to {Math.min(indexOfLastOrder, orders.length)} of {orders.length} orders
+                Showing {indexOfFirstOrder + 1} to{" "}
+                {Math.min(indexOfLastOrder, orders.length)} of {orders.length}{" "}
+                orders
               </div>
               <div className={styles.paginationControls}>
                 <button
@@ -431,15 +458,17 @@ const OrderList = () => {
                 </button>
 
                 <div className={styles.pageNumbers}>
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
-                    <button
-                      key={number}
-                      onClick={() => goToPage(number)}
-                      className={`${styles.pageNumber} ${currentPage === number ? styles.activePage : ''}`}
-                    >
-                      {number}
-                    </button>
-                  ))}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (number) => (
+                      <button
+                        key={number}
+                        onClick={() => goToPage(number)}
+                        className={`${styles.pageNumber} ${currentPage === number ? styles.activePage : ""}`}
+                      >
+                        {number}
+                      </button>
+                    ),
+                  )}
                 </div>
 
                 <button
