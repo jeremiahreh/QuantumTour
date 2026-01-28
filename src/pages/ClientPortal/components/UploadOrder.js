@@ -212,7 +212,7 @@ const UploadOrder = ({
             {isSubmitting || propLoading ? (
               <>
                 <Spinner animation="border" size="sm" className={`me-2 ${styles.submitSpinner}`} />
-                Processing...
+                Processing... please wait 3 minutes
               </>
             ) : (
               "Submit Order"
