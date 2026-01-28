@@ -51,7 +51,6 @@ const UploadOrder = ({
     Premium:       { min: 21, max: 30 },
   };
 
-
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,44 +92,36 @@ const UploadOrder = ({
     console.log("🖱️ Submit button clicked");
     console.log("📸 Selected files:", selectedFiles);
     console.log("📦 Selected package:", selectedPkg);
+    
     if (selectedFiles.length === 0) return alert("Please upload at least one photo.");
     if (!selectedPackage) return alert("Please select a package.");
 
     const filesCount = selectedFiles.length;
     const limits = PACKAGE_LIMITS[selectedPkg?.name];
-    if (limits && (filesCount > limits.max)) {  // filesCount < limits.min ||
+    if (limits && (filesCount > limits.max)) {
       alert(`${selectedPkg.name} allows ${limits.min}-${limits.max} photos. You selected ${filesCount}.`);
-      setIsSubmitting(false);
       return;
     }
-
 
     const userId = user?.id ?? user?.user?.id; 
     if (!userId) return alert("Please sign in again.");
 
     setIsSubmitting(true);
+    
     try {
+      console.log("📡 Calling portalApi.createOrder...");
       const order = await portalApi.createOrder(userId, selectedPkg.name, addons, selectedFiles);
-
-      onSubmit(order);            
+      console.log("✅ Order created successfully:", order);
+      
+      onSubmit(order);
       setSelectedFiles([]);
       setSelectedPackage("");
     } catch (err) {
-      console.error("Order submission error:", err);
+      console.error("❌ Order submission error:", err);
       alert(err.message || "Order submission failed.");
     } finally {
       setIsSubmitting(false);
     }
-   try {
-    console.log("📡 Calling portalApi.createOrder...");
-    const order = await portalApi.createOrder(userId, selectedPkg.name, addons, selectedFiles);
-    console.log("✅ Order created successfully:", order);
-    
-    onSubmit(order);
-  } catch (err) {
-    console.error("❌ Order submission error:", err);
-    alert(err.message || "Order submission failed.");
-  }
   };
 
   return (
